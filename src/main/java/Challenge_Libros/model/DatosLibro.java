@@ -9,12 +9,12 @@ import java.util.List;
 public record DatosLibro(
         @JsonAlias("title") String titulo,
         @JsonAlias("authors") List<Autores> autor,
-        //@JsonAlias("languages") String idioma,
+        @JsonAlias("languages") List<String> idioma,
         @JsonAlias("download_count") Integer descargas
 
 ){
     @Override
     public String toString() {
-        return "Título: "+titulo+"\nAutor: "+"\nIdioma: "+"\nNúmero de descargas: "+descargas;
+        return "Libro: "+titulo+"\nAutor: "+autor+"\nIdioma: "+idioma+"\nNúmero de descargas: "+descargas;
     }
 }
