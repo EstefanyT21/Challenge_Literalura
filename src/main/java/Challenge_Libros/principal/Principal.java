@@ -17,6 +17,8 @@ public class Principal {
     ObjectMapper objectMapper = new ObjectMapper();
     Scanner lectura=new Scanner(System.in);
     LibroRepository repositorio;
+    List<Libro> libros;
+    Libro libroEncontrado = new Libro();
 
     public Principal(LibroRepository repositorio) {
         this.repositorio = repositorio;
@@ -45,6 +47,7 @@ public class Principal {
                     break;
                 case 2:
                     buscarLibrosGuardados();
+                    libros.forEach(System.out::println);
                     break;
                 case 0:
                     System.out.println("Proceso finalizado. \nGracias por utilizar nuestro servicio");
@@ -56,7 +59,7 @@ public class Principal {
 
     private void buscarLibro() throws IOException, InterruptedException {
 
-        System.out.println("Ingrese el autor del libro que desea buscar");
+        System.out.println("Ingrese el título del libro que desea buscar: ");
         var tituloUsuario = lectura.nextLine();
         String json = conexionApi.conectar("https://gutendex.com/books/?search=" + tituloUsuario.replace(" ","+"));
         var datosBusqueda = objectMapper.readValue(json, Datos.class);
@@ -70,7 +73,7 @@ public class Principal {
 
             //Guarda en la base de datos los libros
             DatosLibro datoLibroEncontrado =libroBuscado.get();
-            Libro libroEncontrado = new Libro(datoLibroEncontrado);
+            libroEncontrado = new Libro(datoLibroEncontrado);
             //repositorio.save(libroEncontrado);
 
             //Guarda en la base de datos los libros y la información de los autores
@@ -82,12 +85,29 @@ public class Principal {
                     .map(a->new Autor(a))
                             .collect(Collectors.toList());
             libroEncontrado.setAutor(autor);
-            repositorio.save(libroEncontrado);
-        }else {
+
+            validar(tituloUsuario);
+            //repositorio.save(libroEncontrado);
+        }
+        else {
             System.out.println("Libro no encontrado");
         }
     }
-    public void buscarLibrosGuardados(){
 
+    public void buscarLibrosGuardados(){
+        libros=repositorio.findAll();
+    }
+
+    public void validar(String nombre){
+        buscarLibrosGuardados();
+        Optional<Libro> libro = libros.stream()
+                .filter(s->s.getTitulo().toLowerCase().contains(nombre))
+                .findFirst();
+        if(libro.isPresent()){
+            System.out.println("El libro ya existe");
+        }
+        else {
+            System.out.println("Pronto lo ponfremos");
+        }
     }
 }

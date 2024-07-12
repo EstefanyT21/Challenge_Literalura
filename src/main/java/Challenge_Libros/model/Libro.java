@@ -21,6 +21,8 @@ public class Libro {
     @Transient
     Integer idApi;
 
+    public  Libro(){}
+
     public Libro(DatosLibro libroBuscado) {
         titulo=libroBuscado.titulo();
         idioma=libroBuscado.idioma();
@@ -28,8 +30,19 @@ public class Libro {
         idApi= libroBuscado.idApi();
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
     public void setAutor(List<Autor> autor) {
         autor.forEach(a->a.setLibro(this));
         this.autor = autor;
+    }
+
+    @Override
+    public String toString() {
+        return "Libro: "+titulo+"\nAutor: "+autor.get(0).autor+
+                "\nIdioma: "+idioma.get(0)+"\nNúmero de descargas: "+descargas+
+                "\n----------------";
     }
 }

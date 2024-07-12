@@ -18,6 +18,8 @@ public class Autor {
     Integer fechaNacimiento;
     Integer fechaFallecimiento;
 
+    public Autor(){}
+
     public Autor(DatosAutor a) {
         autor=a.autor();
         fechaNacimiento=a.fechaNacimiento();
