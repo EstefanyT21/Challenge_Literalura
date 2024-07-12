@@ -1,15 +1,11 @@
 package Challenge_Libros.principal;
 
-import Challenge_Libros.model.Datos;
-import Challenge_Libros.model.DatosAutor;
-import Challenge_Libros.model.DatosLibro;
-import Challenge_Libros.model.Libro;
+import Challenge_Libros.model.*;
 import Challenge_Libros.respository.LibroRepository;
 import Challenge_Libros.service.ConexionAPI;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -71,10 +67,16 @@ public class Principal {
         if(libroBuscado.isPresent()){
             System.out.println(libroBuscado.get());
 
-            DatosLibro datosLibro=libroBuscado.get();
-            Libro libro = new Libro(datosLibro);
-            repositorio.save(libro);
+            DatosLibro libroEncontrado =libroBuscado.get();
+            Libro libro = new Libro(libroEncontrado);
+            //repositorio.save(libro);
 
+            json = conexionApi.conectar("https://gutendex.com/books/"+ libroEncontrado.idApi()+"/");
+            DatosLibro datos = objectMapper.readValue(json, DatosLibro.class);
+            List<DatosAutor> datosAutor = datos.autor().stream()
+                    .collect(Collectors.toList());
+
+            datosAutor.forEach(System.out::println);////
 
         }else {
             System.out.println("Libro no encontrado");

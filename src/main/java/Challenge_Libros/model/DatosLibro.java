@@ -11,7 +11,8 @@ public record DatosLibro(
         @JsonAlias("title") String titulo,
         @JsonAlias("authors") List<DatosAutor> autor,
         @JsonAlias("languages") List<String> idioma,
-        @JsonAlias("download_count") Integer descargas
+        @JsonAlias("download_count") Integer descargas,
+        @JsonAlias("id") Integer idApi
 
 ){
     @Override

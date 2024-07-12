@@ -15,4 +15,12 @@ public class Autor {
     String autor;
     Integer fechaNacimiento;
     Integer fechaFallecimiento;
+
+    public Autor(){
+
+    }
+
+    public void setLibro(Libro libro) {
+        this.libro = libro;
+    }
 }
