@@ -3,6 +3,8 @@ package Challenge_Libros.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 public class Autor {
     @Id
@@ -16,8 +18,10 @@ public class Autor {
     Integer fechaNacimiento;
     Integer fechaFallecimiento;
 
-    public Autor(){
-
+    public Autor(DatosAutor a) {
+        autor=a.autor();
+        fechaNacimiento=a.fechaNacimiento();
+        fechaFallecimiento=a.fechaFallecimiento();
     }
 
     public void setLibro(Libro libro) {
