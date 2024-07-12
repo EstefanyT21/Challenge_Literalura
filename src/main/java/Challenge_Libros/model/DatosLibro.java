@@ -15,6 +15,6 @@ public record DatosLibro(
 ){
     @Override
     public String toString() {
-        return "Libro: "+titulo+"\nAutor: "+autor+"\nIdioma: "+idioma+"\nNúmero de descargas: "+descargas;
+        return "Libro: "+titulo+"\nAutor: "+autor.get(0).nombre()+"\nIdioma: "+idioma.get(0)+"\nNúmero de descargas: "+descargas;
     }
 }
