@@ -16,10 +16,11 @@ public class Principal {
 
     public void menu() throws IOException, InterruptedException {
         int opc = 1;
+
+        System.out.println("BIENVENIDO A LITERALURA");
         while (opc!=0){
             System.out.println("""
-                    \nBIENVENIDO A LITERALURA
-                    Selecciona la acción a realizar:
+                    \nSelecciona la acción a realizar:
                     1. Buscar un libro
                     2. Ver el historial de bpusqueda
                     3. Listar los autores de los libros consultados
@@ -34,6 +35,11 @@ public class Principal {
                 case 1:
                     buscarLibro();
                     break;
+                case 2:
+                    buscarLibrosGuardados();
+                    break;
+                case 0:
+                    System.out.println("Proceso finalizado. \nGracias por utilizar nuestro servicio");
                 default:
                     System.out.println("Opción inválida");
             }
@@ -42,7 +48,7 @@ public class Principal {
 
     private void buscarLibro() throws IOException, InterruptedException {
 
-        System.out.println("Ingrese el nombre del libro que desea buscar");
+        System.out.println("Ingrese el autor del libro que desea buscar");
         var tituloUsuario = lectura.nextLine();
 
         String json = conexionApi.conectar("https://gutendex.com/books/?search=" + tituloUsuario.replace(" ","+"));
@@ -55,5 +61,8 @@ public class Principal {
         }else {
             System.out.println("Libro no encontrado");
         }
+    }
+    public void buscarLibrosGuardados(){
+
     }
 }
