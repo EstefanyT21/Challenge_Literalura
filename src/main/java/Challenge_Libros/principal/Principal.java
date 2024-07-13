@@ -4,7 +4,6 @@ import Challenge_Libros.model.*;
 import Challenge_Libros.respository.LibroRepository;
 import Challenge_Libros.service.ConexionAPI;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ public class Principal {
             System.out.println("""
                     \nSelecciona la acción a realizar:
                     1. Buscar un libro
-                    2. Ver el historial de bpusqueda
+                    2. Ver el historial de búsqueda
                     3. Listar los autores de los libros consultados
                     4. Listar autores vivos en un determinado año
                     5. Listar libros por idioma
@@ -47,6 +46,9 @@ public class Principal {
                 case 2:
                     buscarLibrosGuardados();
                     libros.forEach(System.out::println);
+                    break;
+                case 3:
+                    buscarAutores();
                     break;
                 case 0:
                     System.out.println("Proceso finalizado. \nGracias por utilizar nuestro servicio");
@@ -72,14 +74,11 @@ public class Principal {
             DatosLibro datoLibroEncontrado =libroBuscado.get();
             Libro libroEncontrado = new Libro(datoLibroEncontrado);
 
-            json = conexionApi.conectar("https://gutendex.com/books/"+ datoLibroEncontrado.idApi()+"/");
-            //System.out.println("\nJSON 2 \n"+json);
-            DatosLibro datos = objectMapper.readValue(json, DatosLibro.class);
-            List<DatosAutor> datosAutor = datos.autor().stream()
+            List<DatosAutor> datosAutor = datoLibroEncontrado.autor().stream()
                     .collect(Collectors.toList());
             List<Autor> autor = datosAutor.stream()
                     .map(a->new Autor(a))
-                            .collect(Collectors.toList());
+                    .collect(Collectors.toList());
             libroEncontrado.setAutor(autor);
 
             if(validar(tituloUsuario)==true){
@@ -108,5 +107,10 @@ public class Principal {
         else {
             return true;
         }
+    }
+
+    public void buscarAutores(){
+        List<Autor> autoresEncontrados = repositorio.todosLosAutores();
+        autoresEncontrados.forEach(System.out::println);
     }
 }
