@@ -50,10 +50,18 @@ public class Principal {
                 case 3:
                     buscarAutores();
                     break;
+                case 4:
+                    listarAutoresVivos();
+                    break;
+                case 5:
+                    listarPorIdioma();
+                    break;
                 case 0:
                     System.out.println("Proceso finalizado. \nGracias por utilizar nuestro servicio");
+                    break;
                 default:
                     System.out.println("Opción inválida");
+                    break;
             }
         }
     }
@@ -112,5 +120,31 @@ public class Principal {
     public void buscarAutores(){
         List<Autor> autoresEncontrados = repositorio.todosLosAutores();
         autoresEncontrados.forEach(System.out::println);
+    }
+    public void listarAutoresVivos(){
+        System.out.println("Ingresa el año: ");
+        List<Autor> autoresEncontrados = repositorio.autoresVivos(lectura.nextInt());
+        autoresEncontrados.forEach(System.out::println);
+    }
+    public void listarPorIdioma(){
+        while (true){
+            System.out.println("""
+                Por favor escribe las siglas correpondientes al idioma a consultar:
+                (es) Español
+                (en) Inglés
+                (fr) Francés
+                (pt) Postugués
+                """);
+            String opc = lectura.nextLine();
+            if(opc.contains("es")|opc.contains("en")|opc.contains("fr")|opc.contains("pt")){
+                List<Libro> librosEncontrados = repositorio.librosPorIdioma(opc);
+                librosEncontrados.forEach(System.out::println);
+                break;
+            }
+            else{
+                System.out.println("Opción inválida");
+            }
+        }
+
     }
 }

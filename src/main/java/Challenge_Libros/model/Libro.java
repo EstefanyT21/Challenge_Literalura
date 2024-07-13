@@ -16,7 +16,7 @@ public class Libro {
     @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Autor> autor;
 
-    List<String> idioma;
+    String idioma;
     Integer descargas;
 
     @Transient
@@ -26,7 +26,7 @@ public class Libro {
 
     public Libro(DatosLibro libroBuscado) {
         titulo = libroBuscado.titulo();
-        idioma = libroBuscado.idioma();
+        idioma = libroBuscado.idioma().get(0);
         descargas = libroBuscado.descargas();
         idApi = libroBuscado.idApi();
     }
@@ -43,6 +43,6 @@ public class Libro {
     public String toString() {
         return "----------------" +
                 "\nLibro: " + titulo + "\nAutor: " + autor.get(0).autor +
-                "\nIdioma: " + idioma.get(0) + "\nNúmero de descargas: " + descargas;
+                "\nIdioma: " + idioma + "\nNúmero de descargas: " + descargas;
     }
 }
